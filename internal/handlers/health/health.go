@@ -22,7 +22,7 @@ func NewHandler(repository adapter.Interface) handlers.Interface {
 
 func (h *Handler) Get(w http.ResponseWriter, r *http.Request) {
 	if !h.Repository.Health() {
-		HttpStatus.StatusInternalServerError(w, r, errors.New("relational database not alive"))
+		HttpStatus.StatusInternalServerError(w, r, errors.New("database not alive"))
 		return
 	}
 
