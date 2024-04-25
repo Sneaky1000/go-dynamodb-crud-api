@@ -56,7 +56,7 @@ func (r *Rules) createTable(connection *dynamodb.DynamoDB) error {
 		TableName: aws.String(table.TableName()),
 	}
 	response, err := connection.CreateTable(input)
-	if err != nil && strings.Contains(err.Error(), "Table already exists") {
+	if err != nil && strings.Contains(err.Error(), "table already exists") {
 		return nil
 	}
 	if response != nil && strings.Contains(response.GoString(), "TableStatus: \"CREATING\"") {

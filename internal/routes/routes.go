@@ -6,7 +6,7 @@ import (
 	ProductHandler "github.com/Sneaky1000/go-dynamodb-crud-api/internal/handlers/product"
 	"github.com/Sneaky1000/go-dynamodb-crud-api/internal/repository/adapter"
 	"github.com/go-chi/chi"
-	"github.com/go-chi/middleware"
+	"github.com/go-chi/chi/middleware"
 )
 
 type Router struct {

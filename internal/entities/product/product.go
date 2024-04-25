@@ -46,14 +46,14 @@ func (p *Product) GetMap() map[string]interface{} {
 }
 
 func ParseDynamoAtributeToStruct(response map[string]*dynamodb.AttributeValue) (p Product, err error) {
-	if response == nil || (response != nil && len(response) == 0) {
-		return p, errors.New("Item not found")
+	if response == nil || (len(response) == 0) {
+		return p, errors.New("item not found")
 	}
 	for key, value := range response {
 		if key == "_id" {
 			p.ID, err = uuid.Parse(*value.S)
 			if p.ID == uuid.Nil {
-				err = errors.New("Item not found")
+				err = errors.New("item not found")
 			}
 		}
 		if key == "name" {

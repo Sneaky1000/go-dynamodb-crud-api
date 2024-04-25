@@ -8,9 +8,9 @@ import (
 	"github.com/Sneaky1000/go-dynamodb-crud-api/config"
 	"github.com/Sneaky1000/go-dynamodb-crud-api/internal/repository/adapter"
 	"github.com/Sneaky1000/go-dynamodb-crud-api/internal/repository/instance"
-	"github.com/Sneaky1000/go-dynamodb-crud-api/routes"
-	"github.com/Sneaky1000/go-dynamodb-crud-api/rules"
-	RulesProduct "github.com/Sneaky1000/go-dynamodb-crud-api/rules"
+	"github.com/Sneaky1000/go-dynamodb-crud-api/internal/routes"
+	"github.com/Sneaky1000/go-dynamodb-crud-api/internal/rules"
+	RulesProduct "github.com/Sneaky1000/go-dynamodb-crud-api/internal/rules/product"
 	"github.com/Sneaky1000/go-dynamodb-crud-api/utils/logger"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 )

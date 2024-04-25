@@ -124,12 +124,12 @@ func (h *Handler) getBodyAndValidate(r *http.Request, ID uuid.UUID) (*EntityProd
 	productBody := &EntityProduct.Product{}
 	body, err := h.Rules.ConvertIoReaderToStruct(r.Body, productBody)
 	if err != nil {
-		return &EntityProduct.Product{}, errors.New("Body is required")
+		return &EntityProduct.Product{}, errors.New("body is required")
 	}
 
 	productParsed, err := EntityProduct.InterfaceToModel(body)
 	if err != nil {
-		return &EntityProduct.Product{}, errors.New("Error on convert body to model")
+		return &EntityProduct.Product{}, errors.New("error on convert body to model")
 	}
 
 	setDefaultValues(productParsed, ID)

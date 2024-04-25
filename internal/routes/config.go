@@ -17,12 +17,12 @@ func NewConfig() *Config {
 
 func (c *Config) Cors(next http.Handler) http.Handler {
 	return cors.New(cors.Options{
-		AllowedOrigins:     []string{"*"},
-		AllowedMethods:     []string{"*"},
-		AllowedHeaders:     []string{"*"},
-		ExposedHeaders:     []string{"*"},
-		AllowedCredentials: true,
-		MaxAge:             5,
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"*"},
+		AllowedHeaders:   []string{"*"},
+		ExposedHeaders:   []string{"*"},
+		AllowCredentials: true,
+		MaxAge:           5,
 	}).Handler(next)
 }
 
