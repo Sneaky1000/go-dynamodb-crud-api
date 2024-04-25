@@ -56,6 +56,7 @@ func (r *Router) RouterProduct(repository adapter.Interface) {
 	r.router.Route("/product", func(route chi.Router) {
 		route.Post("/", handler.Post)
 		route.Get("/", handler.Get)
+		route.Get("/{ID}", handler.Get)
 		route.Put("/{ID}", handler.Put)
 		route.Delete("/{ID}", handler.Delete)
 		route.Options("/", handler.Options)

@@ -25,6 +25,8 @@ func (h *Handler) Get(w http.ResponseWriter, r *http.Request) {
 		HttpStatus.StatusInternalServerError(w, r, errors.New("relational database not alive"))
 		return
 	}
+
+	HttpStatus.StatusOK(w, r, "Service OK")
 }
 
 func (h *Handler) Post(w http.ResponseWriter, r *http.Request) {
