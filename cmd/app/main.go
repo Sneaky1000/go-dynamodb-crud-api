@@ -23,13 +23,20 @@ func main() {
 
 	logger.INFO("Waiting service starting.... ", nil)
 
-	errors := Migrate(connection)
-	if len(errors) > 0 {
-		for _, err := range errors {
-			logger.PANIC("Error on migrate: ", err)
+	tables, err := checkTables(connection)
+
+	if err != nil {
+		logger.PANIC("Error listing tables: ", err)
+	}
+
+	for _, tableName := range tables {
+		errors := Migrate(connection, tableName, tables)
+		if len(errors) > 0 {
+			for _, err := range errors {
+				logger.PANIC(fmt.Sprintf("Error on migrate for table %s: ", tableName), err)
+			}
 		}
 	}
-	logger.PANIC("", checkTables(connection))
 
 	port := fmt.Sprintf(":%v", configs.Port)
 	router := routes.NewRouter().SetRouters(repository)
@@ -39,8 +46,15 @@ func main() {
 	log.Fatal(server)
 }
 
-func Migrate(connection *dynamodb.DynamoDB) []error {
+func Migrate(connection *dynamodb.DynamoDB, currentTable string, allTables []string) []error {
 	var errors []error
+
+	for _, existingTableName := range allTables {
+		if existingTableName == currentTable {
+			logger.INFO(fmt.Sprintf("Table '%s' found. Skipping migration.", currentTable), nil)
+			return nil
+		}
+	}
 
 	callMigrateAndAppendError(&errors, connection, &RulesProduct.Rules{})
 
@@ -54,15 +68,15 @@ func callMigrateAndAppendError(errors *[]error, connection *dynamodb.DynamoDB, r
 	}
 }
 
-func checkTables(connection *dynamodb.DynamoDB) error {
+func checkTables(connection *dynamodb.DynamoDB) ([]string, error) {
+	var tableNames []string
+
 	response, err := connection.ListTables(&dynamodb.ListTablesInput{})
-	if response != nil {
-		if len(response.TableNames) == 0 {
-			logger.INFO("Tables not found: ", nil)
-		}
-		for _, tableName := range response.TableNames {
-			logger.INFO("Table found: ", *tableName)
-		}
+	if err != nil {
+		return nil, err
 	}
-	return err
+	for _, tableName := range response.TableNames {
+		tableNames = append(tableNames, *tableName)
+	}
+	return tableNames, nil
 }
